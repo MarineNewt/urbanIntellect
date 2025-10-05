@@ -1,32 +1,40 @@
 import dynamic from "next/dynamic";
-import aodData from "../assets/seattle_aod.json";
+import aodData from "../assets/seattle_aod.json"; // adjust filename if needed
 
-// Dynamically import HeatmapLayer to avoid SSR issues
-const HeatmapLayer = dynamic(
-  () => import("react-leaflet-heatmap-layer-v3").then((mod) => mod.HeatmapLayer),
+const CircleMarker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.CircleMarker),
   { ssr: false }
 );
 
-// AOD (Aerosol Optical Depth) overlay as a heatmap
-export const AODOverlay = () => {
-  // Convert GeoJSON features → heatmap data format [lat, lng, intensity]
-  const heatmapPoints = aodData.features.map((feature) => {
-    const { lat, lon, aod } = feature.properties;
-    return [lat, lon, aod]; // intensity = aod
-  });
+const Popup = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Popup),
+  { ssr: false }
+);
 
-  return (
-    <HeatmapLayer
-      fitBoundsOnLoad
-      fitBoundsOnUpdate
-      points={heatmapPoints}
-      longitudeExtractor={(p) => p[1]}
-      latitudeExtractor={(p) => p[0]}
-      intensityExtractor={(p) => p[2]}
-      radius={35}            // controls spread
-      blur={20}              // controls smoothness
-      max={0.5}              // max intensity (tune to your data range)
-      minOpacity={0.3}
-    />
-  );
+export const AODOverlay = () => {
+  return aodData.features.map((feature, index) => {
+    const { lat, lon, aod } = feature.properties;
+
+    // Optional: scale circle size and color by AOD
+    const radius = aod * 40; // adjust scaling to your liking
+    const fillColor =
+      aod > 0.4 ? "red" : aod > 0.3 ? "orange" : aod > 0.2 ? "yellow" : "green";
+
+    return (
+      <CircleMarker
+        key={index}
+        center={[lat, lon]}
+        pathOptions={{ fillColor, color: fillColor, fillOpacity: 0.6, stroke: false }}
+        radius={radius}
+      >
+        <Popup>
+          <b>Aerosol Optical Depth (AOD)</b>
+          <br />
+          Value: {aod.toFixed(3)}
+          <br />
+          Lat: {lat.toFixed(3)} | Lon: {lon.toFixed(3)}
+        </Popup>
+      </CircleMarker>
+    );
+  });
 };
