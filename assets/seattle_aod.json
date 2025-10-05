@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "source_product": "AER_DBDT_D10KM_L3_VIIRS_NOAA20.2025153.V001.2025167192548.nc",
+    "time_start": "2025-06-02",
+    "time_end": "2025-06-02",
+    "variable_description": "Aerosol Optical Depth (AOD) at 550 nm, combined average from DT and DB sources. Values are averaged over the grid, using valid values from both DT and DB.",
+    "variable_name": "COMBINE_AOD_550_AVG"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.35000610351562,
+          47.650001525878906
+        ]
+      },
+      "properties": {
+        "aod": 0.35500001907348633,
+        "lat": 47.650001525878906,
+        "lon": -122.35000610351562
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.25,
+          47.45000076293945
+        ]
+      },
+      "properties": {
+        "aod": 0.23854519426822662,
+        "lat": 47.45000076293945,
+        "lon": -122.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.25,
+          47.650001525878906
+        ]
+      },
+      "properties": {
+        "aod": 0.2675914764404297,
+        "lat": 47.650001525878906,
+        "lon": -122.25
+      }
+    }
+  ]
+}
